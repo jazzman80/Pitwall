@@ -7,6 +7,9 @@ public class Car : MonoBehaviour
 {
     #region Fields
 
+    [Header("Globals")]
+    [SerializeField] Settings settings;
+
     [Header("Move")]
     [SerializeField] private PathCreator circuit;
     [SerializeField] private float totalDistanceCovered;
@@ -31,13 +34,15 @@ public class Car : MonoBehaviour
 
         get
         {
-            // set this!!!
-            return accelerationPerformance / ((40 - 20) / 40);
+            return 100 * (accelerationPerformance - settings.MinAccelerationPerformance) /
+                (settings.MaxAccelerationPerformance - settings.MinAccelerationPerformance);
         }
 
         set
         {
-            accelerationPerformance = ((value * 10) / 100) + 10;
+            accelerationPerformance = ((value / 100) * (settings.MaxAccelerationPerformance
+                - settings.MinAccelerationPerformance))
+                + settings.MinAccelerationPerformance;
         }
     }
 
@@ -46,13 +51,16 @@ public class Car : MonoBehaviour
 
         get
         {
-            // set this!!!
-            return brakingPerformance;
+            return 100 * (brakingPerformance - settings.MinBrakingPerformance) /
+                 (settings.MaxBrakingPerformance - settings.MinBrakingPerformance);
         }
 
         set
         {
-            brakingPerformance = ((value * 20) / 100) + 20;
+            // ERROR
+            brakingPerformance = ((value / 100) * (settings.MaxBrakingPerformance
+                - settings.MinBrakingPerformance))
+                + settings.MinBrakingPerformance;
         }
     }
 
@@ -73,7 +81,8 @@ public class Car : MonoBehaviour
 
     private void Start()
     {
-        AccelerationStat = 0;
+        AccelerationStat = 100;
+        BrakingStat = 100;
     }
 
     private void Update()

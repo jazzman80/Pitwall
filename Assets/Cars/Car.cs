@@ -17,6 +17,10 @@ public class Car : MonoBehaviour
     [SerializeField] private float acceleration;
     [SerializeField] private State state;
 
+    [Header("Cornering")]
+    [SerializeField] private float nextTurnPosition = 10000;
+    [SerializeField] private float nextTurnSpeed;
+
     [Header("Stats")]
     [SerializeField] private float accelerationPerformance;
     [SerializeField] private float brakingPerformance;
@@ -27,6 +31,10 @@ public class Car : MonoBehaviour
     #region Properties
 
     private float Speed { get => speed; set => speed = (value > 0) ? value : 0; }
+
+    private float LapDistanceCovered => totalDistanceCovered % circuit.path.length;
+    private float BrakingDistance => (Speed - nextTurnSpeed) * (Speed - nextTurnSpeed) / brakingPerformance;
+    private float NextTurnDistance => nextTurnPosition - LapDistanceCovered;
 
     // unified stats
     private float AccelerationStat
@@ -81,13 +89,23 @@ public class Car : MonoBehaviour
 
     private void Start()
     {
-        AccelerationStat = 100;
-        BrakingStat = 100;
+        AccelerationStat = 0;
+        BrakingStat = 0;
+        nextTurnPosition = 10000;
+        nextTurnSpeed = 0;
     }
 
     private void Update()
     {
         UpdatePosition();
+        TransitionToBrakingState();
+        TransitionToConstantSpeedState();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Turn Enter")) OnTurnEnter(collision);
+        else if (collision.CompareTag("Turn Exit")) TransitionToAccelerationState();
     }
 
     #endregion
@@ -118,6 +136,30 @@ public class Car : MonoBehaviour
 
         // set position
         transform.position = circuit.path.GetPointAtDistance(totalDistanceCovered);
+    }
+
+    private void TransitionToBrakingState()
+    {
+        if (NextTurnDistance <= BrakingDistance && state != State.braking) state = State.braking;
+    }
+
+    private void TransitionToConstantSpeedState()
+    {
+        if (Speed < nextTurnSpeed && state == State.braking) state = State.constantSpeed;
+    }
+
+    private void TransitionToAccelerationState()
+    {
+        nextTurnPosition = 10000;
+        nextTurnSpeed = 0;
+        state = State.acceleration;
+    }
+
+    private void OnTurnEnter(Collider2D collision)
+    {
+        Turn nextTurn = collision.gameObject.GetComponent<Turn>();
+        nextTurnPosition = nextTurn.Position;
+        nextTurnSpeed = nextTurn.MaxSpeed;
     }
 
     #endregion

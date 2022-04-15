@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAccelerationPerformance: 20
   minAccelerationPerformance: 10
-  maxBrakingPerformance: 40
+  maxBrakingPerformance: 30
   minBrakingPerformance: 20

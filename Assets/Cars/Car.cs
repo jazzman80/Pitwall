@@ -24,16 +24,21 @@ public class Car : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float accelerationPerformance;
     [SerializeField] private float brakingPerformance;
+    [SerializeField] private float corneringPerformance;
     [SerializeField] private float maxSpeed;
+
+    [Header("Initial Stats")]
+    [SerializeField] private float initialAccelerationStat;
+    [SerializeField] private float initialBrakingStat;
+    [SerializeField] private float initialCorneringStat;
 
     #endregion
 
     #region Properties
 
     private float Speed { get => speed; set => speed = (value > 0) ? value : 0; }
-
     private float LapDistanceCovered => totalDistanceCovered % circuit.path.length;
-    private float BrakingDistance => (Speed - nextTurnSpeed) * (Speed - nextTurnSpeed) / brakingPerformance;
+    private float BrakingDistance => ((Speed * Speed) - (nextTurnSpeed * nextTurnSpeed)) / (2 * brakingPerformance);
     private float NextTurnDistance => nextTurnPosition - LapDistanceCovered;
 
     // unified stats
@@ -65,10 +70,26 @@ public class Car : MonoBehaviour
 
         set
         {
-            // ERROR
             brakingPerformance = ((value / 100) * (settings.MaxBrakingPerformance
                 - settings.MinBrakingPerformance))
                 + settings.MinBrakingPerformance;
+        }
+    }
+
+    private float CorneringStat
+    {
+
+        get
+        {
+            return 100 * (corneringPerformance - settings.MinCorneringPerformance) /
+                 (settings.MaxCorneringPerformance - settings.MinCorneringPerformance);
+        }
+
+        set
+        {
+            corneringPerformance = ((value / 100) * (settings.MaxCorneringPerformance
+                - settings.MinCorneringPerformance))
+                + settings.MinCorneringPerformance;
         }
     }
 
@@ -89,8 +110,9 @@ public class Car : MonoBehaviour
 
     private void Start()
     {
-        AccelerationStat = 0;
-        BrakingStat = 0;
+        AccelerationStat = initialAccelerationStat;
+        BrakingStat = initialBrakingStat;
+        CorneringStat = initialCorneringStat;
         nextTurnPosition = 10000;
         nextTurnSpeed = 0;
     }
@@ -159,7 +181,7 @@ public class Car : MonoBehaviour
     {
         Turn nextTurn = collision.gameObject.GetComponent<Turn>();
         nextTurnPosition = nextTurn.Position;
-        nextTurnSpeed = nextTurn.MaxSpeed;
+        nextTurnSpeed = nextTurn.MaxSpeed * corneringPerformance;
     }
 
     #endregion

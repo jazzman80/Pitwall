@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Settings
   m_EditorClassIdentifier: 
   maxAccelerationPerformance: 20
-  minAccelerationPerformance: 10
+  minAccelerationPerformance: 15
   maxBrakingPerformance: 30
-  minBrakingPerformance: 20
+  minBrakingPerformance: 10
+  maxCorneringPerformance: 1
+  minCorneringPerformance: 0.85

@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Globalization;
 
 public class CarTimer : MonoBehaviour
 {
     #region Fields
 
-    [SerializeField] private float currentLapTime;
-    [SerializeField] private float lastLapTime;
-    [SerializeField] private float timeStamp;
-    [SerializeField] private float pace;
+    [SerializeField] private Car car;
+    [SerializeField] private List<double> lapTimes;
+    [SerializeField] private int currentLapNumber;
+    [SerializeField] private double timeStamp;
+    [SerializeField] private double pace;
+    [SerializeField] private string paceString;
  
     #endregion
 
@@ -18,6 +21,7 @@ public class CarTimer : MonoBehaviour
     private void Start()
     {
         timeStamp = 0;
+        currentLapNumber = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,10 +35,16 @@ public class CarTimer : MonoBehaviour
 
     private void OnLapStart()
     {
-        currentLapTime = Time.time - timeStamp;
-        pace = currentLapTime - lastLapTime;
-        lastLapTime = currentLapTime;
-        timeStamp = Time.time;
+        lapTimes.Add(Time.timeAsDouble - timeStamp);
+
+        if(currentLapNumber > 1)
+        {
+            pace = lapTimes[currentLapNumber] - lapTimes[currentLapNumber - 1];
+            paceString = pace.ToString("0.000", CultureInfo.InvariantCulture);
+        }
+
+        currentLapNumber++;
+        timeStamp = Time.timeAsDouble;
     }
 
     #endregion

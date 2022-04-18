@@ -12,9 +12,9 @@ public class Car : MonoBehaviour
     [SerializeField] Track track;
 
     [Header("Move")]
-    [SerializeField] private float totalDistanceCovered;
-    [SerializeField] private float speed;
-    [SerializeField] private float acceleration;
+    [SerializeField] private double totalDistanceCovered;
+    [SerializeField] private double speed;
+    [SerializeField] private double acceleration;
     [SerializeField] private float maxSpeed;
     [SerializeField] private State state;
 
@@ -38,10 +38,11 @@ public class Car : MonoBehaviour
 
     #region Properties
 
-    private float Speed { get => speed; set => speed = (value > 0) ? value : 0; }
-    private float LapDistanceCovered => totalDistanceCovered % track.Circuit.path.length;
-    private float BrakingDistance => ((Speed * Speed) - (nextTurnSpeed * nextTurnSpeed)) / (2 * brakingPerformance);
-    private float NextTurnDistance => nextTurnPosition - LapDistanceCovered;
+    public Track Track => track;
+    public double Speed { get => speed; set => speed = (value > 0) ? value : 0; }
+    public double LapDistanceCovered => totalDistanceCovered % track.Circuit.path.length;
+    private double BrakingDistance => ((Speed * Speed) - (nextTurnSpeed * nextTurnSpeed)) / (2 * brakingPerformance);
+    private double NextTurnDistance => nextTurnPosition - LapDistanceCovered;
 
     // unified stats
     private float AccelerationStat
@@ -140,7 +141,7 @@ public class Car : MonoBehaviour
         maxSpeed = track.MaxSpeed;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdatePosition();
         TransitionToBrakingState();
@@ -174,13 +175,13 @@ public class Car : MonoBehaviour
         }
 
         // update speed
-        Speed += acceleration * Time.deltaTime;
+        Speed += acceleration * Time.fixedDeltaTime;
 
         // update total distance
-        totalDistanceCovered += Speed * Time.deltaTime;
+        totalDistanceCovered += Speed * Time.fixedDeltaTime;
 
         // set position
-        transform.position = track.Circuit.path.GetPointAtDistance(totalDistanceCovered);
+        transform.position = track.Circuit.path.GetPointAtDistance((float)totalDistanceCovered);
     }
 
     private void TransitionToBrakingState()

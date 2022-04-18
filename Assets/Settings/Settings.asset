@@ -18,3 +18,5 @@ MonoBehaviour:
   minBrakingPerformance: 10
   maxCorneringPerformance: 1
   minCorneringPerformance: 0.85
+  maxSpeedPerformance: 1
+  minSpeedPerformance: 0.95

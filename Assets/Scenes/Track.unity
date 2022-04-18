@@ -358,20 +358,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: b9498587af3ba4f35bd488d6b7c5ab01, type: 2}
-  circuit: {fileID: 2094929600}
+  track: {fileID: 1876840110}
   totalDistanceCovered: 0
   speed: 0
   acceleration: 0
+  maxSpeed: 79
   state: 0
   nextTurnPosition: 0
   nextTurnSpeed: 0
   accelerationPerformance: 0
   brakingPerformance: 0
   corneringPerformance: 0
-  maxSpeed: 79
-  initialAccelerationStat: 0
-  initialBrakingStat: 0
-  initialCorneringStat: 0
+  maxSpeedPerformance: 0
+  initialAccelerationStat: 100
+  initialBrakingStat: 100
+  initialCorneringStat: 100
+  initialMaxSpeedStat: 0
 --- !u!4 &130173152
 Transform:
   m_ObjectHideFlags: 0
@@ -635,20 +637,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: b9498587af3ba4f35bd488d6b7c5ab01, type: 2}
-  circuit: {fileID: 2094929600}
+  track: {fileID: 1876840110}
   totalDistanceCovered: 0
   speed: 0
   acceleration: 0
+  maxSpeed: 79
   state: 0
   nextTurnPosition: 0
   nextTurnSpeed: 0
   accelerationPerformance: 0
   brakingPerformance: 0
   corneringPerformance: 0
-  maxSpeed: 79
+  maxSpeedPerformance: 0
   initialAccelerationStat: 100
   initialBrakingStat: 100
-  initialCorneringStat: 100
+  initialCorneringStat: 200
+  initialMaxSpeedStat: 100
 --- !u!58 &697849628
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -754,7 +758,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701430435}
-  m_Mesh: {fileID: 1497217515}
+  m_Mesh: {fileID: 1247881993}
 --- !u!4 &701430438
 Transform:
   m_ObjectHideFlags: 0
@@ -851,7 +855,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!43 &1497217515
+--- !u!43 &1247881993
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1209,6 +1213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1876840109}
   - component: {fileID: 1876840108}
+  - component: {fileID: 1876840110}
   m_Layer: 0
   m_Name: Track
   m_TagString: Untagged
@@ -1252,6 +1257,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1876840110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876840107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d2c6eeea79a4f618ef309ce6f5dec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 90
+  circuit: {fileID: 2094929600}
 --- !u!1001 &2094929599
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -45,6 +45,7 @@ public class CarTimer : MonoBehaviour
 
         currentLapNumber++;
         timeStamp = Time.timeAsDouble;
+
     }
 
     #endregion

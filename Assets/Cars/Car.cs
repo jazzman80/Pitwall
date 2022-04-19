@@ -191,10 +191,10 @@ public class Car : MonoBehaviour
 
     private void TransitionToConstantSpeedState()
     {
-        if (Speed < nextTurnSpeed && state == State.braking)
+        if (Speed <= nextTurnSpeed && state == State.braking)
         {
             state = State.constantSpeed;
-            Speed = nextTurnSpeed;
+            // Speed = nextTurnSpeed;
         }
     }
 

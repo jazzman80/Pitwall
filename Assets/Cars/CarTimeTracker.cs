@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Globalization;
 
-public class CarTimer : MonoBehaviour
+public class CarTimeTracker : MonoBehaviour
 {
     #region Fields
 
@@ -22,11 +22,8 @@ public class CarTimer : MonoBehaviour
     {
         timeStamp = 0;
         currentLapNumber = 0;
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Start Line")) OnLapStart();
+        car.StartLineCross.AddListener(OnLapStart);
     }
 
     #endregion

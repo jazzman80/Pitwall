@@ -10,13 +10,14 @@ public class Car : MonoBehaviour
 
     [Header("Globals")]
     [SerializeField] Settings settings;
-    [SerializeField] Track track;
+    private CarData carData;
+    private Track track;
 
-    [Header("Initial Stats")]
-    [SerializeField] private float initialAccelerationStat;
-    [SerializeField] private float initialBrakingStat;
-    [SerializeField] private float initialCorneringStat;
-    [SerializeField] private float initialMaxSpeedStat;
+    [Header("Race")]
+    public int position;
+
+    [Header("Move")]
+    public double totalDistanceCovered;
 
     [Header("Performance")]
     [SerializeField] public float accelerationPerformance;
@@ -114,11 +115,6 @@ public class Car : MonoBehaviour
 
     #region LifeCycle
 
-    private void Awake()
-    {
-        Construct();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.tag)
@@ -140,12 +136,19 @@ public class Car : MonoBehaviour
 
     #region Methods
 
-    private void Construct()
+    public void Construct(Track track, CarData carData, int position)
     {
-        AccelerationStat = initialAccelerationStat;
-        BrakingStat = initialBrakingStat;
-        CorneringStat = initialCorneringStat;
-        MaxSpeedStat = initialMaxSpeedStat;
+        this.track = track;
+        this.carData = carData;
+
+        AccelerationStat = carData.accelerationStat;
+        BrakingStat = carData.brakingStat;
+        CorneringStat = carData.corneringStat;
+        MaxSpeedStat = carData.maxSpeedStat;
+
+        // set starting position on track
+        this.position = position;
+        totalDistanceCovered = -(10 * position);
     }
 
     #endregion

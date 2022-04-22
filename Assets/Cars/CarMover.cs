@@ -12,7 +12,6 @@ public class CarMover : MonoBehaviour
     [SerializeField] private Car car;
 
     [Header("Move")]
-    [SerializeField] private double totalDistanceCovered;
     [SerializeField] private double speed;
     [SerializeField] private double acceleration;
     [SerializeField] private State state;
@@ -39,7 +38,7 @@ public class CarMover : MonoBehaviour
     private double Speed { get => speed; set => speed = (value > 0) ? value : 0; }
     private double BrakingDistance => ((Speed * Speed) - (nextTurnSpeed * nextTurnSpeed)) / (2 * car.brakingPerformance);
     private double NextTurnDistance => nextTurnPosition - LapDistanceCovered;
-    private double LapDistanceCovered => totalDistanceCovered % car.Track.Circuit.path.length;
+    private double LapDistanceCovered => car.totalDistanceCovered % car.Track.Circuit.path.length;
 
 
     #endregion
@@ -87,10 +86,10 @@ public class CarMover : MonoBehaviour
         Speed += acceleration * Time.fixedDeltaTime;
 
         // update total distance
-        totalDistanceCovered += Speed * Time.fixedDeltaTime;
+        car.totalDistanceCovered += Speed * Time.fixedDeltaTime;
 
         // set position
-        car.WorldCoordinates = car.Track.Circuit.path.GetPointAtDistance((float)totalDistanceCovered);
+        car.WorldCoordinates = car.Track.Circuit.path.GetPointAtDistance((float)car.totalDistanceCovered);
     }
 
     private void TransitionToBrakingState()

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2743117854494237178}
   - component: {fileID: 2743117854494237176}
-  - component: {fileID: 2743117854494237177}
+  - component: {fileID: 1281024237121949769}
   m_Layer: 0
   m_Name: Enter
   m_TagString: Turn Enter
@@ -48,7 +48,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &2743117854494237177
+--- !u!114 &1281024237121949769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,11 +57,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2743117854494237179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40d512495e6ab4a489551a632a6d03a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 28455498ed3bb43b887c4313129d26d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: 445
-  maxSpeed: 23
+  position: 0
+  maxSpeed: 0
 --- !u!1 &2743117854503908158
 GameObject:
   m_ObjectHideFlags: 0

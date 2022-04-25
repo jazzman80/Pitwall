@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254b7c9c27dea4cf6a3759dacb71340f, type: 3}
   m_Name: Car Data 001
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: b9498587af3ba4f35bd488d6b7c5ab01, type: 2}
   accelerationStat: 100
-  brakingStat: 100
-  corneringStat: 100
-  maxSpeedStat: 100
+  brakingStat: 0
+  corneringStat: 0
+  maxSpeedStat: 0

@@ -82,55 +82,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &3151428016774939657
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3151428016774939662}
-  - component: {fileID: 3151428016774939663}
-  m_Layer: 0
-  m_Name: Time Tracker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3151428016774939662
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3151428016774939657}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3151428018341654144}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3151428016774939663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3151428016774939657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f60f393a2bba4857a8f336a1e3b76c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  car: {fileID: 3151428018341654145}
-  lapTimes: []
-  currentLapNumber: 0
-  timeStamp: 0
-  pace: 0
-  paceString: 
 --- !u!1 &3151428017272034028
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +194,7 @@ Transform:
   - {fileID: 3151428017272034029}
   - {fileID: 3151428016728367575}
   m_Father: {fileID: 3151428018341654144}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3151428018341654147
 GameObject:
@@ -254,9 +205,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3151428018341654144}
-  - component: {fileID: 3151428018341654145}
   - component: {fileID: 3151428018341654151}
   - component: {fileID: 3151428018341654150}
+  - component: {fileID: 4805569630214288746}
   m_Layer: 0
   m_Name: Car Prefab
   m_TagString: Untagged
@@ -275,43 +226,10 @@ Transform:
   m_LocalPosition: {x: 30.9, y: -117.3, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
-  - {fileID: 3151428018558442668}
-  - {fileID: 3151428016774939662}
   - {fileID: 3151428017406785276}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3151428018341654145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3151428018341654147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a390a9322d741eb9510f5c22eecfa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: b9498587af3ba4f35bd488d6b7c5ab01, type: 2}
-  track: {fileID: 0}
-  initialAccelerationStat: 100
-  initialBrakingStat: 100
-  initialCorneringStat: 100
-  initialMaxSpeedStat: 100
-  accelerationPerformance: 0
-  brakingPerformance: 0
-  corneringPerformance: 0
-  maxSpeedPerformance: 0
-  EntersTurn:
-    m_PersistentCalls:
-      m_Calls: []
-  ExitsTurn:
-    m_PersistentCalls:
-      m_Calls: []
-  StartLineCross:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!58 &3151428018341654151
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -349,53 +267,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!1 &3151428018558442671
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3151428018558442668}
-  - component: {fileID: 3151428018558442659}
-  m_Layer: 0
-  m_Name: Mover
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3151428018558442668
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3151428018558442671}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3151428018341654144}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3151428018558442659
+--- !u!114 &4805569630214288746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3151428018558442671}
+  m_GameObject: {fileID: 3151428018341654147}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd2277eee7a2b4fcf89d8a29ad98944b, type: 3}
+  m_Script: {fileID: 11500000, guid: 17a390a9322d741eb9510f5c22eecfa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  car: {fileID: 3151428018341654145}
-  totalDistanceCovered: 0
-  speed: 0
-  acceleration: 0
-  state: 0
-  nextTurnPosition: 10000
-  nextTurnSpeed: 0
+  track: {fileID: 0}

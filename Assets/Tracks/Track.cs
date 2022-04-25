@@ -1,32 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
-using PathCreation.Examples;
 
 public class Track : MonoBehaviour
 {
     #region Fields
 
-    [SerializeField] private float maxSpeed;
-    [SerializeField] private PathCreator circuit;
-    [SerializeField] private RoadMeshCreator meshCreator;
+    [Header("Globals")]
+    [SerializeField] PathCreator circuit;
+    [SerializeField] float maxSpeed;
 
     #endregion
 
     #region Properties
 
+    public VertexPath Path => circuit.path;
     public float MaxSpeed => maxSpeed;
-    public PathCreator Circuit => circuit;
-
-    #endregion
-
-    #region Lifecycle
-
-    private void Start()
-    {
-        meshCreator.TriggerUpdate();
-    }
+    public float Length => circuit.path.length;
 
     #endregion
 }

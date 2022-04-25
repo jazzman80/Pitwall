@@ -1,154 +1,119 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using PathCreation;
-using UnityEngine.Events;
 
 public class Car : MonoBehaviour
 {
     #region Fields
 
     [Header("Globals")]
-    [SerializeField] Settings settings;
-    private CarData carData;
-    private Track track;
-
-    [Header("Race")]
-    public int position;
+    [SerializeField] Track track;
+    [SerializeField] CarData data;
 
     [Header("Move")]
-    public double totalDistanceCovered;
+    [SerializeField] float acceleration;
+    [SerializeField] float speed;
+    float totalDistanceCovered;
+    Turn nextTurn;
+    float nextTurnSpeed;
+    float nextTurnPosition;
 
-    [Header("Performance")]
-    [SerializeField] public float accelerationPerformance;
-    [SerializeField] public float brakingPerformance;
-    [SerializeField] public float corneringPerformance;
-    [SerializeField] public float maxSpeedPerformance;
+    [Header("Car State")]
+    [SerializeField] State state;
+    private enum State
+    {
+        acceleration,
+        braking,
+        constantSpeed
+    }
 
-    #endregion
-
-    #region Events
-
-    public UnityEvent<Collider2D> EntersTurn;
-    public UnityEvent ExitsTurn;
-    public UnityEvent StartLineCross;
 
     #endregion
 
     #region Properties
 
-    public Track Track => track;
-    public Vector3 WorldCoordinates { get => transform.position; set => transform.position = value; }
+    float NextTurnDistance => nextTurnPosition - LapDistanceCovered;
+    float BrakingDistance => ((speed * speed) - (nextTurnSpeed * nextTurnSpeed)) /
+        (2 * data.BrakingPerformance);
+
+    float LapDistanceCovered => totalDistanceCovered % track.Length;
 
     #endregion
 
-    #region Unified stats
-    private float AccelerationStat
+    #region Lifecycle
+
+    private void Start()
     {
-
-        get
-        {
-            return 100 * (accelerationPerformance - settings.MinAccelerationPerformance) /
-                (settings.MaxAccelerationPerformance - settings.MinAccelerationPerformance);
-        }
-
-        set
-        {
-            accelerationPerformance = ((value / 100) * (settings.MaxAccelerationPerformance
-                - settings.MinAccelerationPerformance))
-                + settings.MinAccelerationPerformance;
-        }
+        nextTurnSpeed = 0;
+        nextTurnPosition = 10000;
     }
 
-    private float BrakingStat
+    private void FixedUpdate()
     {
-
-        get
-        {
-            return 100 * (brakingPerformance - settings.MinBrakingPerformance) /
-                 (settings.MaxBrakingPerformance - settings.MinBrakingPerformance);
-        }
-
-        set
-        {
-            brakingPerformance = ((value / 100) * (settings.MaxBrakingPerformance
-                - settings.MinBrakingPerformance))
-                + settings.MinBrakingPerformance;
-        }
+        CheckState();
+        UpdateWorldCoordinates();
     }
-
-    private float CorneringStat
-    {
-
-        get
-        {
-            return 100 * (corneringPerformance - settings.MinCorneringPerformance) /
-                 (settings.MaxCorneringPerformance - settings.MinCorneringPerformance);
-        }
-
-        set
-        {
-            corneringPerformance = ((value / 100) * (settings.MaxCorneringPerformance
-                - settings.MinCorneringPerformance))
-                + settings.MinCorneringPerformance;
-        }
-    }
-
-    private float MaxSpeedStat
-    {
-
-        get
-        {
-            return 100 * (maxSpeedPerformance - settings.MinSpeedPerformance) /
-                 (settings.MaxSpeedPerformance - settings.MinSpeedPerformance);
-        }
-
-        set
-        {
-            maxSpeedPerformance = ((value / 100) * (settings.MaxSpeedPerformance
-                - settings.MinSpeedPerformance))
-                + settings.MinSpeedPerformance;
-        }
-    }
-
-    #endregion
-
-    #region LifeCycle
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.tag)
         {
             case "Turn Enter":
-                EntersTurn.Invoke(collision);
+                nextTurn = collision.gameObject.GetComponent<Turn>();
+                nextTurnPosition = nextTurn.Position;
+                nextTurnSpeed = nextTurn.MaxSpeed * data.CorneringPerformance;
                 break;
             case "Turn Exit":
-                ExitsTurn.Invoke();
-                break;
-            case "Start Line":
-                StartLineCross.Invoke();
+                state = State.acceleration;
+                nextTurnPosition = 10000;
+                nextTurnSpeed = 0;
                 break;
         }
-
     }
 
     #endregion
 
     #region Methods
 
-    public void Construct(Track track, CarData carData, int position)
+    // set car position in 2D space
+    private void UpdateWorldCoordinates()
     {
-        this.track = track;
-        this.carData = carData;
+        // update acceleration
+        switch (state)
+        {
+            case State.acceleration:
+                acceleration = data.AccelerationPerformance *
+                (track.MaxSpeed * data.MaxSpeedPerformance - speed) /
+                track.MaxSpeed * data.MaxSpeedPerformance;
+                break;
 
-        AccelerationStat = carData.accelerationStat;
-        BrakingStat = carData.brakingStat;
-        CorneringStat = carData.corneringStat;
-        MaxSpeedStat = carData.maxSpeedStat;
+            case State.braking:
+                acceleration = -data.BrakingPerformance;
+                break;
 
-        // set starting position on track
-        this.position = position;
-        totalDistanceCovered = -(10 * position);
+            case State.constantSpeed:
+                acceleration = 0f;
+                break;
+        }
+
+        // update speed
+        speed += acceleration * Time.fixedDeltaTime;
+
+        // clamp speed over zero
+        if (speed < 0) speed = 0;
+
+        // update total covered distance
+        totalDistanceCovered += speed * Time.fixedDeltaTime;
+
+        // set position in 2D space
+        transform.position = track.Path.GetPointAtDistance(totalDistanceCovered);
+    }
+
+    private void CheckState()
+    {
+        // set braking state
+        if (NextTurnDistance <= BrakingDistance && state == State.acceleration) state = State.braking;
+
+        // set constant speed state
+        if (speed <= nextTurnSpeed && state == State.braking) state = State.constantSpeed;
     }
 
     #endregion

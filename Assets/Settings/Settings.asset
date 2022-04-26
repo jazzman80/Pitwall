@@ -20,3 +20,4 @@ MonoBehaviour:
   minCorneringPerformance: 0.85
   maxSpeedPerformance: 1
   minSpeedPerformance: 0.95
+  engineToAccImpact: 100

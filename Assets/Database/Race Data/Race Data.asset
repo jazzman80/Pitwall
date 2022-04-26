@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86bb52706a464288904dd431bbd8e02, type: 3}
+  m_Name: Race Data
+  m_EditorClassIdentifier: 
+  track: {fileID: 2700170500748524228, guid: 6604930f939aa4dc88f6817032284f1c, type: 3}
+  startingGridList:
+  - {fileID: 11400000, guid: aa7e65d1c1e854fdeb1873a81fbdf1a5, type: 2}
+  - {fileID: 11400000, guid: 51f749c5895aa426d90412aac9d76cb2, type: 2}
+  - {fileID: 11400000, guid: 3b3b7e8ff86434b5e87efa63c3a1e727, type: 2}
+  - {fileID: 11400000, guid: f7143050710014223880bb69dd0bb160, type: 2}
+  - {fileID: 11400000, guid: 07ded916893d94deea49891dc5ba7ed9, type: 2}
+  - {fileID: 11400000, guid: 3328e804a03fb429288ba5f147f1d919, type: 2}
+  - {fileID: 11400000, guid: db56a88fa281d46db9f83b1999189503, type: 2}
+  - {fileID: 11400000, guid: 2f8bfcd433b754c39a0073da05479013, type: 2}
+  - {fileID: 11400000, guid: dd4602190ab204b54926a50b2eb19544, type: 2}
+  - {fileID: 11400000, guid: 20ed52c6b2a934f62973cf47f716ec3e, type: 2}
+  - {fileID: 11400000, guid: 251cac983c4694edd936d6f8db502fe8, type: 2}
+  - {fileID: 11400000, guid: 634440fa6fb214a828cf64df01d16114, type: 2}
+  - {fileID: 11400000, guid: df5f54d2921164ab9b5b9476fecd3eca, type: 2}
+  - {fileID: 11400000, guid: 017dd2aa6a0b84ede80a2c06a96f7c6c, type: 2}
+  - {fileID: 11400000, guid: 4cbf2109e006d4aaf8166ccafae5b97d, type: 2}
+  - {fileID: 11400000, guid: f591ed5fd92074a529adabc72515a44a, type: 2}
+  - {fileID: 11400000, guid: 8237328c8b9df4e7e91f659f63fea839, type: 2}
+  - {fileID: 11400000, guid: e86426a5e55e24337af080e7d5278161, type: 2}
+  - {fileID: 11400000, guid: 1c4986588dc754a22a71cfa5ebe4fdac, type: 2}
+  - {fileID: 11400000, guid: 8df844bd5b9c6479ab3ffc0bdc5ca64b, type: 2}

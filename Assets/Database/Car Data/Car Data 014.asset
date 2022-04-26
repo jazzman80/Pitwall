@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 254b7c9c27dea4cf6a3759dacb71340f, type: 3}
-  m_Name: Car Data 001
+  m_Name: Car Data 014
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: b9498587af3ba4f35bd488d6b7c5ab01, type: 2}
-  accelerationStat: 100
+  driverData: {fileID: 11400000, guid: b90ea0e4376674b89808d8b55235bff0, type: 2}
+  teamData: {fileID: 11400000, guid: 70c5c444498eb4db892689d47ff764bf, type: 2}
+  accelerationStat: 50
   brakingStat: 0
   corneringStat: 0
   maxSpeedStat: 0

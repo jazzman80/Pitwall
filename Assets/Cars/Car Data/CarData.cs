@@ -10,32 +10,20 @@ public class CarData : ScriptableObject
 
     [Header("Globals")]
     [SerializeField] Settings settings;
+    [SerializeField] DriverData driverData;
+    [SerializeField] TeamData teamData;
 
-    [Header("Stats")]
-    [SerializeField] float accelerationStat;
-    [SerializeField] float brakingStat;
-    [SerializeField] float corneringStat;
-    [SerializeField] float maxSpeedStat;
+    [Header("Car Components")]
+    [SerializeField] float engineStat;
 
     #endregion
 
     #region Properties
 
-    public float AccelerationPerformance =>
-        Pitwall.ConvertStatToPerformance(accelerationStat,
-        settings.MinAccelerationPerformance, settings.MaxAccelerationPerformance);
+    public DriverData DriverData => driverData;
+    public TeamData TeamData => teamData;
 
-    public float BrakingPerformance =>
-        Pitwall.ConvertStatToPerformance(brakingStat,
-        settings.MinBrakingPerformance, settings.MaxBrakingPerformance);
-
-    public float MaxSpeedPerformance =>
-        Pitwall.ConvertStatToPerformance(maxSpeedStat,
-        settings.MinSpeedPerformance, settings.MaxSpeedPerformance);
-
-    public float CorneringPerformance =>
-        Pitwall.ConvertStatToPerformance(corneringStat,
-        settings.MinCorneringPerformance, settings.MaxCorneringPerformance);
+    public float EngineStat => engineStat;
 
     #endregion
 

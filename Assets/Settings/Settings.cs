@@ -8,6 +8,7 @@ public class Settings : ScriptableObject
 {
     #region Fields
 
+    [Header("Performance")]
     [SerializeField] private float maxAccelerationPerformance;
     [SerializeField] private float minAccelerationPerformance;
 
@@ -19,6 +20,9 @@ public class Settings : ScriptableObject
 
     [SerializeField] private float maxSpeedPerformance;
     [SerializeField] private float minSpeedPerformance;
+
+    [Header("Car Component Impact")]
+    [SerializeField] float engineToAccImpact;
 
     #endregion
 
@@ -35,6 +39,9 @@ public class Settings : ScriptableObject
 
     public float MaxSpeedPerformance => maxSpeedPerformance;
     public float MinSpeedPerformance => minSpeedPerformance;
+
+
+    public float EngineToAccImpact => engineToAccImpact / 100;
 
     #endregion
 }

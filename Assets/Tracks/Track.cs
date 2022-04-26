@@ -1,5 +1,6 @@
 using UnityEngine;
 using PathCreation;
+using PathCreation.Examples;
 
 public class Track : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class Track : MonoBehaviour
 
     [Header("Globals")]
     [SerializeField] PathCreator circuit;
+    [SerializeField] RoadMeshCreator roadMesh;
     [SerializeField] float maxSpeed;
 
     #endregion
@@ -16,6 +18,16 @@ public class Track : MonoBehaviour
     public VertexPath Path => circuit.path;
     public float MaxSpeed => maxSpeed;
     public float Length => circuit.path.length;
+
+    #endregion
+
+    #region Lifecycle
+
+    private void Start()
+    {
+        // show road mesh on start
+        roadMesh.TriggerUpdate();
+    }
 
     #endregion
 }

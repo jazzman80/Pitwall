@@ -5,8 +5,20 @@ public class Car : MonoBehaviour
     #region Fields
 
     [Header("Globals")]
+    [SerializeField] Settings settings;
     [SerializeField] Track track;
-    [SerializeField] CarData data;
+    [SerializeField] RaceData raceData;
+    [SerializeField] CarData carData;
+    [SerializeField] CarVisuals carVisuals;
+
+    [Header("Performance")]
+    [SerializeField] float accelerationPerformance;
+    [SerializeField] float brakingPerformance;
+    [SerializeField] float corneringPerformance;
+    [SerializeField] float maxSpeedPerformance;
+
+    [Header("Car Components")]
+    [SerializeField] Engine engine;
 
     [Header("Move")]
     [SerializeField] float acceleration;
@@ -25,6 +37,8 @@ public class Car : MonoBehaviour
         constantSpeed
     }
 
+    [Header("Position")]
+    [SerializeField] int position;
 
     #endregion
 
@@ -32,7 +46,7 @@ public class Car : MonoBehaviour
 
     float NextTurnDistance => nextTurnPosition - LapDistanceCovered;
     float BrakingDistance => ((speed * speed) - (nextTurnSpeed * nextTurnSpeed)) /
-        (2 * data.BrakingPerformance);
+        (2 * brakingPerformance);
 
     float LapDistanceCovered => totalDistanceCovered % track.Length;
 
@@ -48,6 +62,7 @@ public class Car : MonoBehaviour
 
     private void FixedUpdate()
     {
+        UpdatePerformance();
         CheckState();
         UpdateWorldCoordinates();
     }
@@ -59,7 +74,7 @@ public class Car : MonoBehaviour
             case "Turn Enter":
                 nextTurn = collision.gameObject.GetComponent<Turn>();
                 nextTurnPosition = nextTurn.Position;
-                nextTurnSpeed = nextTurn.MaxSpeed * data.CorneringPerformance;
+                nextTurnSpeed = nextTurn.MaxSpeed * corneringPerformance;
                 break;
             case "Turn Exit":
                 state = State.acceleration;
@@ -73,6 +88,23 @@ public class Car : MonoBehaviour
 
     #region Methods
 
+    // set data at object start
+    public void Construct(CarData carData, Track track, int position)
+    {
+        this.carData = carData;
+        this.track = track;
+        this.position = position;
+
+        // set starting position
+        totalDistanceCovered = -(position * 5);
+
+        // set visuals layer
+        carVisuals.SetVisuals(position, carData.TeamData.PrimaryColor);
+
+        // set car components start stats
+        engine.Construct(carData.EngineStat);
+    }
+
     // set car position in 2D space
     private void UpdateWorldCoordinates()
     {
@@ -80,13 +112,13 @@ public class Car : MonoBehaviour
         switch (state)
         {
             case State.acceleration:
-                acceleration = data.AccelerationPerformance *
-                (track.MaxSpeed * data.MaxSpeedPerformance - speed) /
-                track.MaxSpeed * data.MaxSpeedPerformance;
+                acceleration = accelerationPerformance *
+                (track.MaxSpeed * maxSpeedPerformance - speed) /
+                track.MaxSpeed * maxSpeedPerformance;
                 break;
 
             case State.braking:
-                acceleration = -data.BrakingPerformance;
+                acceleration = -brakingPerformance;
                 break;
 
             case State.constantSpeed:
@@ -114,6 +146,32 @@ public class Car : MonoBehaviour
 
         // set constant speed state
         if (speed <= nextTurnSpeed && state == State.braking) state = State.constantSpeed;
+    }
+
+    private void UpdatePerformance()
+    {
+        float accelerationStat = engine.EngineStat * settings.EngineToAccImpact;
+
+        accelerationPerformance = Pitwall.ConvertStatToPerformance(accelerationStat,
+            settings.MinAccelerationPerformance, settings.MaxAccelerationPerformance);
+
+
+        float brakingStat = 100;
+
+        brakingPerformance = Pitwall.ConvertStatToPerformance(brakingStat,
+            settings.MinBrakingPerformance, settings.MaxBrakingPerformance);
+
+
+        float corneringStat = 100;
+
+        corneringPerformance = Pitwall.ConvertStatToPerformance(corneringStat,
+            settings.MinCorneringPerformance, settings.MaxCorneringPerformance);
+
+
+        float maxSpeedStat = 100;
+
+        maxSpeedPerformance = Pitwall.ConvertStatToPerformance(maxSpeedStat,
+            settings.MinSpeedPerformance, settings.MaxSpeedPerformance);
     }
 
     #endregion

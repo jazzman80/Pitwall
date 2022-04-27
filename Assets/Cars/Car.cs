@@ -18,7 +18,15 @@ public class Car : MonoBehaviour
     [SerializeField] float maxSpeedPerformance;
 
     [Header("Car Components")]
-    [SerializeField] Engine engine;
+    [SerializeField] CarComponent engine;
+    [SerializeField] CarComponent gearBox;
+    [SerializeField] CarComponent brakes;
+    [SerializeField] CarComponent suspension;
+    [SerializeField] CarComponent aerodynamics;
+    [SerializeField] CarComponent weight;
+
+    //todo это пока заглушка - переместить в объект шин
+    [SerializeField] CarComponent tires;
 
     [Header("Move")]
     [SerializeField] float acceleration;
@@ -49,6 +57,7 @@ public class Car : MonoBehaviour
         (2 * brakingPerformance);
 
     float LapDistanceCovered => totalDistanceCovered % track.Length;
+    public CarData CarData => carData;
 
     #endregion
 
@@ -102,7 +111,15 @@ public class Car : MonoBehaviour
         carVisuals.SetVisuals(position, carData.TeamData.PrimaryColor);
 
         // set car components start stats
-        engine.Construct(carData.EngineStat);
+        engine.Construct(carData.EngineEfficiencyStat);
+        gearBox.Construct(carData.GearBoxEfficiencyStat);
+        brakes.Construct(carData.BrakesEfficiencyStat);
+        suspension.Construct(carData.SuspensionEfficiencyStat);
+        aerodynamics.Construct(carData.AerodynamicsEfficiencyStat);
+        weight.Construct(carData.WeightEfficiencyStat);
+
+        //todo это пока заглушка - переместить в объект шин
+        tires.Construct(carData.TiresEfficiencyStat);
     }
 
     // set car position in 2D space
@@ -150,25 +167,33 @@ public class Car : MonoBehaviour
 
     private void UpdatePerformance()
     {
-        float accelerationStat = engine.EngineStat * settings.EngineToAccImpact;
+        float accelerationStat = engine.EfficiencyStat * settings.EngineToAccImpact
+            + gearBox.EfficiencyStat * settings.GearBoxToAccImpact
+            + weight.EfficiencyStat * settings.WeightToAccImpact;
 
         accelerationPerformance = Pitwall.ConvertStatToPerformance(accelerationStat,
             settings.MinAccelerationPerformance, settings.MaxAccelerationPerformance);
 
 
-        float brakingStat = 100;
+        float brakingStat = brakes.EfficiencyStat * settings.BrakesToBraImpact
+            + tires.EfficiencyStat * settings.TiresToBraImpact
+            + weight.EfficiencyStat * settings.WeightToBraImpact;
 
         brakingPerformance = Pitwall.ConvertStatToPerformance(brakingStat,
             settings.MinBrakingPerformance, settings.MaxBrakingPerformance);
 
 
-        float corneringStat = 100;
+        float corneringStat = tires.EfficiencyStat * settings.TiresToCorImpact
+            + suspension.EfficiencyStat * settings.SuspensionToCorImpact
+            + aerodynamics.EfficiencyStat * settings.AeroToCorImpact;
 
         corneringPerformance = Pitwall.ConvertStatToPerformance(corneringStat,
             settings.MinCorneringPerformance, settings.MaxCorneringPerformance);
 
 
-        float maxSpeedStat = 100;
+        float maxSpeedStat = aerodynamics.EfficiencyStat * settings.AeroToSpeedImpact
+            + gearBox.EfficiencyStat * settings.GearBoxToSpeedImpact
+            + suspension.EfficiencyStat * settings.SuspensionToSpeedImpact;
 
         maxSpeedPerformance = Pitwall.ConvertStatToPerformance(maxSpeedStat,
             settings.MinSpeedPerformance, settings.MaxSpeedPerformance);

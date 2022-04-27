@@ -14,7 +14,15 @@ public class CarData : ScriptableObject
     [SerializeField] TeamData teamData;
 
     [Header("Car Components")]
-    [SerializeField] float engineStat;
+    [SerializeField] float engineEfficiencyStat;
+    [SerializeField] float gearBoxEfficiencyStat;
+    [SerializeField] float brakesEfficiencyStat;
+    [SerializeField] float suspensionEfficiencyStat;
+    [SerializeField] float aerodynamicsEfficiencyStat;
+    [SerializeField] float weightEfficiencyStat;
+
+    //todo это пока заглушка - переместить в объект шин
+    [SerializeField] float tiresEfficiencyStat;
 
     #endregion
 
@@ -23,7 +31,16 @@ public class CarData : ScriptableObject
     public DriverData DriverData => driverData;
     public TeamData TeamData => teamData;
 
-    public float EngineStat => engineStat;
+    public float EngineEfficiencyStat => engineEfficiencyStat;
+    public float GearBoxEfficiencyStat => gearBoxEfficiencyStat;
+    public float BrakesEfficiencyStat => brakesEfficiencyStat;
+    public float SuspensionEfficiencyStat => suspensionEfficiencyStat;
+    public float AerodynamicsEfficiencyStat => aerodynamicsEfficiencyStat;
+    public float WeightEfficiencyStat => weightEfficiencyStat;
+
+    //todo это пока заглушка - переместить в объект шин
+    public float TiresEfficiencyStat => tiresEfficiencyStat;
+
 
     #endregion
 

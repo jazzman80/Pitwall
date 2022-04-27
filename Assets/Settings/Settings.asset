@@ -20,4 +20,15 @@ MonoBehaviour:
   minCorneringPerformance: 0.85
   maxSpeedPerformance: 1
   minSpeedPerformance: 0.95
-  engineToAccImpact: 100
+  engineToAccImpact: 50
+  gearBoxToAccImpact: 25
+  weightToAccImpact: 25
+  brakesToBraImpact: 50
+  weightToBraImpact: 25
+  tiresToBraImpact: 25
+  aeroToSpeedImpact: 50
+  gearBoxToSpeedImpact: 25
+  suspensionToSpeedImpact: 25
+  suspensionToCorImpact: 25
+  aeroToCorImpact: 25
+  tiresToCorImpact: 50

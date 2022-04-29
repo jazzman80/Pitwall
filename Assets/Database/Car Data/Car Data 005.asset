@@ -21,4 +21,5 @@ MonoBehaviour:
   suspensionEfficiencyStat: 0
   aerodynamicsEfficiencyStat: 0
   weightEfficiencyStat: 0
-  tiresEfficiencyStat: 0
+  tireSets:
+  - {fileID: 11400000, guid: 724730eac9cd34b898ad234bc5c820ce, type: 2}

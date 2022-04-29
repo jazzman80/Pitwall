@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Car : MonoBehaviour
@@ -7,7 +8,7 @@ public class Car : MonoBehaviour
     [Header("Globals")]
     [SerializeField] Settings settings;
     [SerializeField] Track track;
-    [SerializeField] RaceData raceData;
+    //[SerializeField] RaceData raceData;
     [SerializeField] CarData carData;
     [SerializeField] CarVisuals carVisuals;
 
@@ -25,8 +26,8 @@ public class Car : MonoBehaviour
     [SerializeField] CarComponent aerodynamics;
     [SerializeField] CarComponent weight;
 
-    //todo это пока заглушка - переместить в объект шин
-    [SerializeField] CarComponent tires;
+    [Header("Tires")]
+    [SerializeField] Tires tires;
 
     [Header("Move")]
     [SerializeField] float acceleration;
@@ -58,6 +59,7 @@ public class Car : MonoBehaviour
 
     float LapDistanceCovered => totalDistanceCovered % track.Length;
     public CarData CarData => carData;
+    public float TotalDistanceCovered => totalDistanceCovered;
 
     #endregion
 
@@ -118,8 +120,7 @@ public class Car : MonoBehaviour
         aerodynamics.Construct(carData.AerodynamicsEfficiencyStat);
         weight.Construct(carData.WeightEfficiencyStat);
 
-        //todo это пока заглушка - переместить в объект шин
-        tires.Construct(carData.TiresEfficiencyStat);
+        tires.Construct(carData.TireSets[0]);
     }
 
     // set car position in 2D space
@@ -150,7 +151,9 @@ public class Car : MonoBehaviour
         if (speed < 0) speed = 0;
 
         // update total covered distance
-        totalDistanceCovered += speed * Time.fixedDeltaTime;
+        float distanceDelta = speed * Time.fixedDeltaTime;
+        totalDistanceCovered += distanceDelta;
+        tires.UpdateEfficiency(distanceDelta);
 
         // set position in 2D space
         transform.position = track.Path.GetPointAtDistance(totalDistanceCovered);

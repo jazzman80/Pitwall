@@ -37,6 +37,9 @@ public class Settings : ScriptableObject
     [SerializeField] float suspensionToCorImpact;
     [SerializeField] float aeroToCorImpact;
     [SerializeField] float tiresToCorImpact;
+
+    [Header("Wears")]
+    [SerializeField] float tireWearRatio;
  
     #endregion
 
@@ -59,17 +62,20 @@ public class Settings : ScriptableObject
     public float GearBoxToAccImpact => gearBoxToAccImpact / 100;
     public float WeightToAccImpact => weightToAccImpact / 100;
 
-    public float BrakesToBraImpact => brakesToBraImpact;
-    public float WeightToBraImpact => weightToBraImpact;
-    public float TiresToBraImpact => tiresToBraImpact;
+    public float BrakesToBraImpact => brakesToBraImpact / 100;
+    public float WeightToBraImpact => weightToBraImpact / 100;
+    public float TiresToBraImpact => tiresToBraImpact / 100;
 
-    public float AeroToSpeedImpact => aeroToSpeedImpact;
-    public float GearBoxToSpeedImpact => gearBoxToSpeedImpact;
-    public float SuspensionToSpeedImpact => suspensionToSpeedImpact;
+    public float AeroToSpeedImpact => aeroToSpeedImpact / 100;
+    public float GearBoxToSpeedImpact => gearBoxToSpeedImpact / 100;
+    public float SuspensionToSpeedImpact => suspensionToSpeedImpact / 100;
 
-    public float SuspensionToCorImpact => suspensionToCorImpact;
-    public float AeroToCorImpact => aeroToCorImpact;
-    public float TiresToCorImpact => tiresToCorImpact;
+    public float SuspensionToCorImpact => suspensionToCorImpact / 100;
+    public float AeroToCorImpact => aeroToCorImpact / 100;
+    public float TiresToCorImpact => tiresToCorImpact / 100;
+
+    // wears
+    public float TireWearRatio => tireWearRatio;
 
     #endregion
 }

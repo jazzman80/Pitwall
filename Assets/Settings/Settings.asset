@@ -32,3 +32,4 @@ MonoBehaviour:
   suspensionToCorImpact: 25
   aeroToCorImpact: 25
   tiresToCorImpact: 50
+  tireWearRatio: 0.0001

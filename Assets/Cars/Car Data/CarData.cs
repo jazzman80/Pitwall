@@ -21,8 +21,8 @@ public class CarData : ScriptableObject
     [SerializeField] float aerodynamicsEfficiencyStat;
     [SerializeField] float weightEfficiencyStat;
 
-    //todo это пока заглушка - переместить в объект шин
-    [SerializeField] float tiresEfficiencyStat;
+    [Header("Tires")]
+    [SerializeField] List<TireSet> tireSets;
 
     #endregion
 
@@ -38,8 +38,7 @@ public class CarData : ScriptableObject
     public float AerodynamicsEfficiencyStat => aerodynamicsEfficiencyStat;
     public float WeightEfficiencyStat => weightEfficiencyStat;
 
-    //todo это пока заглушка - переместить в объект шин
-    public float TiresEfficiencyStat => tiresEfficiencyStat;
+    public List<TireSet> TireSets => tireSets;
 
 
     #endregion

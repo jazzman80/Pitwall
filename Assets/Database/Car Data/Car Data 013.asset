@@ -15,7 +15,11 @@ MonoBehaviour:
   settings: {fileID: 11400000, guid: b9498587af3ba4f35bd488d6b7c5ab01, type: 2}
   driverData: {fileID: 11400000, guid: 4e345e5a486454fe6b8f1c710416809f, type: 2}
   teamData: {fileID: 11400000, guid: 70c5c444498eb4db892689d47ff764bf, type: 2}
-  accelerationStat: 50
-  brakingStat: 0
-  corneringStat: 0
-  maxSpeedStat: 0
+  engineEfficiencyStat: 0
+  gearBoxEfficiencyStat: 0
+  brakesEfficiencyStat: 0
+  suspensionEfficiencyStat: 0
+  aerodynamicsEfficiencyStat: 0
+  weightEfficiencyStat: 0
+  tireSets:
+  - {fileID: 11400000, guid: 840e8912704da4e8ea8cece60aa64ed6, type: 2}

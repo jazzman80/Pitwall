@@ -16,7 +16,20 @@ public class Car : MonoBehaviour
     [SerializeField] float accelerationPerformance;
     [SerializeField] float brakingPerformance;
     [SerializeField] float corneringPerformance;
-    [SerializeField] float maxSpeedPerformance;
+    [SerializeField] float speedPerformance;
+
+    [Header("Performance Ranges")]
+    [SerializeField] private float maxAccelerationPerformance;
+    [SerializeField] private float minAccelerationPerformance;
+
+    [SerializeField] private float maxBrakingPerformance;
+    [SerializeField] private float minBrakingPerformance;
+
+    [SerializeField] private float maxCorneringPerformance;
+    [SerializeField] private float minCorneringPerformance;
+
+    [SerializeField] private float maxSpeedPerformance;
+    [SerializeField] private float minSpeedPerformance;
 
     [Header("Car Components")]
     [SerializeField] CarComponent engine;
@@ -25,6 +38,23 @@ public class Car : MonoBehaviour
     [SerializeField] CarComponent suspension;
     [SerializeField] CarComponent aerodynamics;
     [SerializeField] CarComponent weight;
+
+    [Header("Car Component Impact")]
+    [SerializeField] float engineToAccImpact;
+    [SerializeField] float gearBoxToAccImpact;
+    [SerializeField] float weightToAccImpact;
+
+    [SerializeField] float brakesToBraImpact;
+    [SerializeField] float weightToBraImpact;
+    [SerializeField] float tiresToBraImpact;
+
+    [SerializeField] float aeroToSpeedImpact;
+    [SerializeField] float gearBoxToSpeedImpact;
+    [SerializeField] float suspensionToSpeedImpact;
+
+    [SerializeField] float suspensionToCorImpact;
+    [SerializeField] float aeroToCorImpact;
+    [SerializeField] float tiresToCorImpact;
 
     [Header("Tires")]
     [SerializeField] Tires tires;
@@ -69,6 +99,8 @@ public class Car : MonoBehaviour
     {
         nextTurnSpeed = 0;
         nextTurnPosition = 10000;
+
+        LoadCarData();
     }
 
     private void FixedUpdate()
@@ -98,6 +130,38 @@ public class Car : MonoBehaviour
     #endregion
 
     #region Methods
+
+    // to avoid accessing the disk in each frame, we load the data at the start of the class
+    private void LoadCarData()
+    {
+        engineToAccImpact = settings.EngineToAccImpact;
+        gearBoxToAccImpact = settings.GearBoxToAccImpact;
+        weightToAccImpact = settings.WeightToAccImpact;
+
+        brakesToBraImpact = settings.BrakesToBraImpact;
+        weightToBraImpact = settings.WeightToBraImpact;
+        tiresToBraImpact = settings.TiresToBraImpact;
+
+        aeroToSpeedImpact = settings.AeroToSpeedImpact;
+        gearBoxToSpeedImpact = settings.GearBoxToSpeedImpact;
+        suspensionToSpeedImpact = settings.SuspensionToSpeedImpact;
+
+        suspensionToCorImpact = settings.SuspensionToCorImpact;
+        aeroToCorImpact = settings.AeroToCorImpact;
+        tiresToCorImpact = settings.TiresToCorImpact;
+
+        maxAccelerationPerformance = settings.MaxAccelerationPerformance;
+        minAccelerationPerformance = settings.MinAccelerationPerformance;
+
+        maxBrakingPerformance = settings.MaxBrakingPerformance;
+        minBrakingPerformance = settings.MinBrakingPerformance;
+
+        maxCorneringPerformance = settings.MaxCorneringPerformance;
+        minCorneringPerformance = settings.MinCorneringPerformance;
+
+        maxSpeedPerformance = settings.MaxSpeedPerformance;
+        minSpeedPerformance = settings.MinSpeedPerformance;
+    }
 
     // set data at object start
     public void Construct(CarData carData, Track track, int position)
@@ -170,36 +234,36 @@ public class Car : MonoBehaviour
 
     private void UpdatePerformance()
     {
-        float accelerationStat = engine.EfficiencyStat * settings.EngineToAccImpact
-            + gearBox.EfficiencyStat * settings.GearBoxToAccImpact
-            + weight.EfficiencyStat * settings.WeightToAccImpact;
+        float accelerationStat = engine.EfficiencyStat * engineToAccImpact
+            + gearBox.EfficiencyStat * gearBoxToAccImpact
+            + weight.EfficiencyStat * weightToAccImpact;
 
         accelerationPerformance = Pitwall.ConvertStatToPerformance(accelerationStat,
-            settings.MinAccelerationPerformance, settings.MaxAccelerationPerformance);
+            minAccelerationPerformance, maxAccelerationPerformance);
 
 
-        float brakingStat = brakes.EfficiencyStat * settings.BrakesToBraImpact
-            + tires.EfficiencyStat * settings.TiresToBraImpact
-            + weight.EfficiencyStat * settings.WeightToBraImpact;
+        float brakingStat = brakes.EfficiencyStat * brakesToBraImpact
+            + tires.EfficiencyStat * tiresToBraImpact
+            + weight.EfficiencyStat * weightToBraImpact;
 
         brakingPerformance = Pitwall.ConvertStatToPerformance(brakingStat,
-            settings.MinBrakingPerformance, settings.MaxBrakingPerformance);
+            minBrakingPerformance, maxBrakingPerformance);
 
 
-        float corneringStat = tires.EfficiencyStat * settings.TiresToCorImpact
-            + suspension.EfficiencyStat * settings.SuspensionToCorImpact
-            + aerodynamics.EfficiencyStat * settings.AeroToCorImpact;
+        float corneringStat = tires.EfficiencyStat * tiresToCorImpact
+            + suspension.EfficiencyStat * suspensionToCorImpact
+            + aerodynamics.EfficiencyStat * aeroToCorImpact;
 
         corneringPerformance = Pitwall.ConvertStatToPerformance(corneringStat,
-            settings.MinCorneringPerformance, settings.MaxCorneringPerformance);
+            minCorneringPerformance, maxCorneringPerformance);
 
 
-        float maxSpeedStat = aerodynamics.EfficiencyStat * settings.AeroToSpeedImpact
-            + gearBox.EfficiencyStat * settings.GearBoxToSpeedImpact
-            + suspension.EfficiencyStat * settings.SuspensionToSpeedImpact;
+        float maxSpeedStat = aerodynamics.EfficiencyStat * aeroToSpeedImpact
+            + gearBox.EfficiencyStat * gearBoxToSpeedImpact
+            + suspension.EfficiencyStat * suspensionToSpeedImpact;
 
         maxSpeedPerformance = Pitwall.ConvertStatToPerformance(maxSpeedStat,
-            settings.MinSpeedPerformance, settings.MaxSpeedPerformance);
+            minSpeedPerformance, maxSpeedPerformance);
     }
 
     #endregion
